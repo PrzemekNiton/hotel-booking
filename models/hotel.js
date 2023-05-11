@@ -1,4 +1,4 @@
-const mongoose = require("moongose");
+const mongoose = require("mongoose");
 
 //funckja konstruktora, pozwala na definiowanie schemmatu dla kolekcji tabeli w bazie danych Mongo
 const hotelSchema = mongoose.Schema({
