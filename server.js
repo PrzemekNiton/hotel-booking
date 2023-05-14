@@ -5,9 +5,9 @@ const app = express();
 
 const dbConfig = require ('./db')
 
-const hotelRoute = require('./routes/hotelRoute') 
+const hotelsRoute = require('./routes/hotelsRoute') 
 
-app.use('/api/hotel', hotelRoute)
+app.use('/api/hotels', hotelsRoute)
 
 const port = process.env.PORT || 5000;
 

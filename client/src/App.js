@@ -1,12 +1,17 @@
 import './App.css';
 import Navbar from './components/Navbar';
-import List from './components/List';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import HomeView from './screens/HomeView';
 
 function App() {
   return (
     <div className="App">
-      <Navbar/>
-      <List/>
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/home" element={<HomeView />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
