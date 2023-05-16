@@ -7,7 +7,7 @@ router.get("/getAllHotels", async(req, res) => {
 
     try{
         const hotels = await Hotel.find({})
-        return res.json({hotels});
+        res.send(hotels)
     } catch (error){
         return res.status(400).json({message: error});
     }

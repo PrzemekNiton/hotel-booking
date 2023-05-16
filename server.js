@@ -1,19 +1,13 @@
-// instalacja node servera
 const express = require("express");
-
+const cors = require("cors");
 const app = express();
 
-const dbConfig = require ('./db')
+const dbConfig = require('./db');
+const hotelsRoute = require('./routes/hotelsRoute');
 
-const hotelRoute = require('./routes/hotelRoute') 
-
-app.use('/api/hotel', hotelRoute)
+app.use(cors());
+app.use('/api/hotels', hotelsRoute);
 
 const port = process.env.PORT || 5000;
 
-//instalacja nodemon ,który restartuje atumotatycznie dane node.js po zmianie w plikach projektu
-
 app.listen(port, () => console.log(`Node Server Started`));
-
-
-
