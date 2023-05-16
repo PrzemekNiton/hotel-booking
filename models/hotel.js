@@ -11,7 +11,7 @@ const hotelSchema = mongoose.Schema({
         required: true
     },
     country:{
-        type: Number,
+        type: String,
         required: true
     },
     pricePerNight:{

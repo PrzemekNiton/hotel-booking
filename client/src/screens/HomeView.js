@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Hotel from '../components/Hotel'
 
 const HomeView = () => {
-  const [hotels, setHotels] = useState([]);
-
+  const [hotels, setHotels] = useState([])
+  const [loading, setLoading] = useState()
+  const [error, setError] = useState()
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true)
         const response = await axios.get('http://localhost:5000/api/hotels/getAllHotels', {
           headers: {
             'Access-Control-Allow-Origin': '*',
@@ -14,9 +17,12 @@ const HomeView = () => {
             'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
           },
         });
+        setLoading(false)
         setHotels(response.data);
       } catch (error) {
-        console.error(error.message);
+        setError(true)
+        console.error(error.message)
+        setLoading(false)
       }
     };
 
@@ -24,9 +30,17 @@ const HomeView = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Home View</h1>
-      <h1>They are {hotels.length} hotels</h1>
+    <div className='container'>
+      <div className="row justify-content-center mt-5">
+        {loading ? (<h1>Loading....</h1>) : error ? (<h1>Error</h1>) : (hotels.map((hotel)  => {
+
+          return <div className="col-md-9 mt-2">
+            <Hotel hotel={hotel}/>
+
+          </div>
+            
+        }))}
+      </div>
     </div>
   );
 };
