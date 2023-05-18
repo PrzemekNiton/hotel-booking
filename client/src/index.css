@@ -21,6 +21,9 @@ code {
   width:100% !important;
   border-radius: 5px !important;
 }
+.bigImg{
+  height: 400px;
+}
 
 h1{
   font-size: 20 px !important;

@@ -32,14 +32,11 @@ const HomeView = () => {
   return (
     <div className='container'>
       <div className="row justify-content-center mt-5">
-        {loading ? (<h1>Loading....</h1>) : error ? (<h1>Error</h1>) : (hotels.map((hotel)  => {
-
-          return <div className="col-md-9 mt-2">
+        {loading ? (<h1>Loading....</h1>) : error ? (<h1>Error</h1>) : (hotels.map((hotel) => (
+          <div className="col-md-9 mt-2" key={hotel.id}>
             <Hotel hotel={hotel}/>
-
           </div>
-            
-        }))}
+        )))}
       </div>
     </div>
   );
