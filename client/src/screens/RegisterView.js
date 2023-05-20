@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 function RegisterView() {
@@ -17,7 +17,7 @@ function RegisterView() {
         confirmPassword
       };
       try {
-        const response = await axios.post('/api/users/register', user);
+        const response = await axios.post('http://localhost:5000/api/users/register', user);
         const result = response.data;
         // Działania po udanej rejestracji (np. przekierowanie do strony logowania)
       } catch (error) {
@@ -28,6 +28,18 @@ function RegisterView() {
       setError('Passwords do not match'); // Ustawienie komunikatu błędu
     }
   }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // W tym miejscu możesz wykonywać inne żądania do serwera, jeśli jest to potrzebne
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div>
