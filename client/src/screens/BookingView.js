@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import Error from '../components/Error';
 
 export default function BookingView() {
     const [loading, setLoading] = useState(true);
@@ -36,7 +37,7 @@ export default function BookingView() {
         {loading ? (
             <h1>Loading...</h1>
         ) : error ? (
-            <h1>Error...</h1>
+            <Error/>
         ) : hotel ? (
             <div className='m-5'>
                 <div className="row justify-content-center mt-5 bs">

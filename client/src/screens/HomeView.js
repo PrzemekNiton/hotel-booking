@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Hotel from '../components/Hotel'
+import Error from '../components/Error';
 
 const HomeView = () => {
   const [hotels, setHotels] = useState([])
@@ -32,7 +33,7 @@ const HomeView = () => {
   return (
     <div className='container'>
       <div className="row justify-content-center mt-5">
-        {loading ? (<h1>Loading....</h1>) : error ? (<h1>Error</h1>) : (hotels.map((hotel) => (
+        {loading ? (<h1>Loading....</h1>) : error ? (<Error/>) : (hotels.map((hotel) => (
           <div className="col-md-9 mt-2" key={hotel.id}>
             <Hotel hotel={hotel}/>
           </div>
