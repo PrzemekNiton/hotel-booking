@@ -24,8 +24,8 @@ function RegisterView() {
         <div>
             <div className="row justify-content-center mt-5">
                 <div className="col-md-5">
-                    <div>
-                        <h1>Register</h1>
+                    <div className='bs'>
+                        <h2>Register</h2>
                         <input type='text' className='form-control' placeholder='Name'
                             value={name} onChange={(e) => { setName(e.target.value) }} />
                         <input type='text' className='form-control' placeholder='Email'
@@ -35,7 +35,7 @@ function RegisterView() {
                         <input type='password' className='form-control' placeholder='Confirm password'
                             value={confirmPassword} onChange={(e) => { setConfirmPassword(e.target.value) }} />
 
-                        <button className='btn bt-primary' onClick={register}>Register</button>
+                        <button className='btn btn-primary mt-3' onClick={register}>Register</button>
                     </div>
                 </div>
             </div>
