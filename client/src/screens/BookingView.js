@@ -41,16 +41,15 @@ export default function BookingView() {
         ) : hotel ? (
             <div className='m-5'>
                 <div className="row justify-content-center mt-5 bs">
-                <div className="col-md-5 bs justify-content-center" style={{ textAlign: 'center', borderRadius: '5px' }}>
+                <div className="col-md-5 bs" style={{ textAlign: 'center', borderRadius: '5px' }}>
                         <h1>{hotel.name}</h1>
-                        <img src={hotel.imageUrls[0]} className='bigImg' style={{borderRadius: '5px'}}/>
+                        <div><img src={hotel.imageUrls[0]} className='bigImg' style={{borderRadius: '5px'}}/></div>
                     </div>
                     <div className="col-md-5 bs">
                        
                        <div style={{textAlign:"right"}}>
                        <h1>Booking Information</h1>
                        <hr/>
-
                        <p>Your Name : </p>
                        <p>From Date :</p>
                        <p>To Date :</p>

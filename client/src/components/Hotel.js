@@ -24,11 +24,11 @@ function Hotel({ hotel }) {
                 More Details
               </button>
             </div>
-          {/*</div>*/}
+          
         </div>
 
 
-        <Modal show={show} onHide={handleClose} size="lg">
+        <Modal style={{width : '1200px'}} size='lg' show={show} onHide={handleClose}>
         <Modal.Header>
           <Modal.Title>{hotel.name}</Modal.Title>
         </Modal.Header>
