@@ -16,10 +16,10 @@ router.get("/getAllHotels", async(req, res) => {
 
 router.post("/getHotelById", async(req, res) => {
 
-const hotelid = req.body.hotelid
+const hotelId = req.body.hotelId
 
     try{
-        const hotel = await Hotel.findOne({_id: hotelid})
+        const hotel = await Hotel.findOne({_id: hotelId})
         res.send(hotel)
     } catch (error){
         return res.status(400).json({message: error});

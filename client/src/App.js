@@ -15,7 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomeView />} />
           <Route path="/home" element={<HomeView />} />
-          <Route path="/book/:hotelid" element={<BookingView />} />
+          <Route path="/book/:hotelId/:fromDate/:toDate" element={<BookingView />} />
           <Route path="/register" element={<RegisterView/>} />
           <Route path="/login" element={<LoginView/>} />
         </Routes>

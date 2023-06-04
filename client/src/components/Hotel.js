@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Button, Carousel } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-function Hotel({ hotel }) {
+function Hotel({ hotel, fromDate, toDate }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -17,7 +17,7 @@ function Hotel({ hotel }) {
              <p className="mb-0">Hotel Type: {hotel.typeOfHotel}</p>
             </div>
             <div className="mt-3 text-center ">
-              <Link to={`/book/${hotel._id}`}>
+              <Link to={`/book/${hotel._id}/${fromDate}/${toDate}`}>
                 <button className="btn btn-primary m-2">Book Hotel</button>
               </Link>
               <button className="btn btn-primary m-2" onClick={handleShow}>
