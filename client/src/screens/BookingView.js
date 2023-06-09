@@ -4,6 +4,7 @@ import axios from 'axios';
 import Error from '../components/Error';
 import moment from 'moment';
 
+
 export default function BookingView() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -11,6 +12,7 @@ export default function BookingView() {
   const { hotelId, fromDate, toDate } = useParams();
   const totalDays = moment(toDate, 'DD-MM-YYYY').diff(moment(fromDate, 'DD-MM-YYYY'), 'days') + 1;
   const [totalAmount, setTotalAmount] = useState();
+  const [userName, setUserName] = useState('');
 
   // const totalAmount = hotel ? totalDays*hotel.pricePerNight : 0;
 
@@ -56,6 +58,14 @@ export default function BookingView() {
   //
   //   }
   // }
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('currentUser'));
+    if (user) {
+      setUserName(user.name);
+    }
+  }, []);
+
   async function bookHotel() {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     if (!currentUser || !currentUser._id) {
@@ -99,7 +109,7 @@ export default function BookingView() {
               <div style={{ textAlign: 'right' }}>
                 <h1>Booking Information</h1>
                 <hr />
-                <p>Your Name : </p>
+                <p>Your Name : {userName} </p>
                 <p>From Date : {fromDate}</p>
                 <p>To Date : {toDate}</p>
                 <p>Max Count: {hotel.maxGuests}</p>
@@ -110,7 +120,7 @@ export default function BookingView() {
                 <hr />
                 <p>Total days: {totalDays}</p>
                 <p>Rent per day: {hotel.pricePerNight} €</p>
-                <p>Total Amount: {totalAmount} €</p>
+                <p style={{fontWeight: 'bold'}}>Total Amount: {totalAmount} €</p>
               </div>
 
               <div style={{ float: 'right' }}>

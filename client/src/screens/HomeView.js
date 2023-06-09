@@ -16,6 +16,7 @@ const HomeView = () => {
   const [hotelsPerPage] = useState(4);
   const [userName, setUserName] = useState('');
 
+
   const [fromDate, setFromDate] = useState();
   const [toDate, setToDate] = useState();
 
@@ -84,7 +85,7 @@ const HomeView = () => {
     <div className="row mt-5">
 <div className="col-md=3">
 
-<RangePicker format='DD-MM-YYYY' onChange={filterByDate} />
+<RangePicker  format='DD-MM-YYYY' onChange={filterByDate} />
 </div>
 </div>
   
