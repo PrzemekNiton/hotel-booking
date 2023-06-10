@@ -41,14 +41,19 @@ export default function BookingView() {
     fetchData();
   }, [hotelId, totalDays]);
 
-  async function onToken(token) {
-    console.log(token);
+  const bookHotel = async (token) => {
+    if (!currentUser || !currentUser._id) {
+      // Handle the case when the user is not logged in
+      // or the 'currentUser' item is not set
+      // You can show an error message or redirect the user to the login page.
+      return;
+    }
 
     const bookingDetails = {
       hotel,
       userId: currentUser._id,
-      fromDate,
-      toDate,
+      fromDate: moment(fromDate, 'DD-MM-YYYY').format('YYYY-MM-DD'),
+      toDate: moment(toDate, 'DD-MM-YYYY').format('YYYY-MM-DD'),
       token,
       totalAmount,
       totalDays,
@@ -56,10 +61,11 @@ export default function BookingView() {
 
     try {
       const result = await axios.post('http://localhost:5000/api/bookings/bookHotel', bookingDetails);
+      console.log(result);
     } catch (error) {
       // Handle the error
     }
-  }
+  };
 
   return (
     <div>
@@ -91,21 +97,19 @@ export default function BookingView() {
                 <hr />
                 <p>Total days: {totalDays}</p>
                 <p>Rent per day: {hotel.pricePerNight} €</p>
-                <p style={{fontWeight: 'bold'}}>Total Amount: {totalAmount} €</p>
+                <p style={{ fontWeight: 'bold' }}>Total Amount: {totalAmount} €</p>
               </div>
 
               <div style={{ float: 'right' }}>
                 <StripeCheckout
                   amount={totalAmount * 100}
-                  token={onToken}
+                  token={(token) => bookHotel(token)} // Poprawne przekazanie funkcji bookHotel
                   currency='EUR'
                   stripeKey="pk_test_51NHNsGD4TiwA6UHXLgLXrqohYgiFKsJYKKdmYSGjvs0kPRDTAFNLcUvNVt7jMgztbrQUDV5qArEnANFAUg8eN4SN00AGXWUYK2"
                 >
                   <button className='btn btn-primary'>Pay Now</button>
                 </StripeCheckout>
-
-</div>
-
+              </div>
             </div>
           </div>
         </div>
