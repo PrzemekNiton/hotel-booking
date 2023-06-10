@@ -4,6 +4,7 @@ import axios from 'axios';
 import Error from '../components/Error';
 import moment from 'moment';
 import StripeCheckout from 'react-stripe-checkout';
+import Swal from 'sweetalert2';
 
 export default function BookingView() {
   const [loading, setLoading] = useState(true);
@@ -61,9 +62,13 @@ export default function BookingView() {
 
     try {
       const result = await axios.post('http://localhost:5000/api/bookings/bookHotel', bookingDetails);
+      Swal.fire('Congratulations' , 'Your Hotel Booked Successfully', 'success').then(result=>{
+        window.location.href='/myreservations';
+      })
       console.log(result);
     } catch (error) {
       // Handle the error
+      Swal.fire('Ooops' , 'Something gone wrong', 'error')
     }
   };
 

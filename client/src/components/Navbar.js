@@ -25,7 +25,7 @@ export default function Navbar() {
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                       <a class="dropdown-item" href="#">My account</a>
-                      <a class="dropdown-item" href="#">My reservations</a>
+                      <a class="dropdown-item" href="/myreservations">My reservations</a>
                       <a class="dropdown-item" href="#">Favorites</a>
                       <a class="dropdown-item" href="#" onClick={Logout}>Log out</a>
                     </div>
