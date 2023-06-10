@@ -6,7 +6,8 @@ function Hotel({ hotel, fromDate, toDate }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
+  const [duplicateHotels, setDuplicateHotels] = useState([]);
+  
   return (
       <div className="card" style={{width: 350}}>
           <img className="card-img-top smallImg " src={hotel.imageUrls[0]} alt="Hotel" />
@@ -17,9 +18,12 @@ function Hotel({ hotel, fromDate, toDate }) {
              <p className="mb-0">Hotel Type: {hotel.typeOfHotel}</p>
             </div>
             <div className="mt-3 text-center ">
-              <Link to={`/book/${hotel._id}/${fromDate}/${toDate}`}>
-                <button className="btn btn-primary m-2">Book Hotel</button>
-              </Link>
+
+              {(fromDate && toDate) &&(
+                 <Link to={`/book/${hotel._id}/${fromDate}/${toDate}`}>
+                 <button className="btn btn-primary m-2">Book Hotel</button>
+                 </Link>
+              )}
               <button className="btn btn-primary m-2" onClick={handleShow}>
                 More Details
               </button>

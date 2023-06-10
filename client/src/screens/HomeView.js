@@ -19,6 +19,7 @@ const HomeView = () => {
 
   const [fromDate, setFromDate] = useState();
   const [toDate, setToDate] = useState();
+  const [duplicateHotels, setDuplicateHotels] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -70,6 +71,8 @@ const HomeView = () => {
     const to = moment(dates[1].$d).format('DD-MM-YYYY');
     setFromDate(from);
     setToDate(to);
+
+    
 
   }
 

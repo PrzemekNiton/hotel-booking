@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Error from '../components/Error';
 import moment from 'moment';
-
+import StripeCheckout from 'react-stripe-checkout';
 
 export default function BookingView() {
   const [loading, setLoading] = useState(true);
@@ -12,9 +12,7 @@ export default function BookingView() {
   const { hotelId, fromDate, toDate } = useParams();
   const totalDays = moment(toDate, 'DD-MM-YYYY').diff(moment(fromDate, 'DD-MM-YYYY'), 'days') + 1;
   const [totalAmount, setTotalAmount] = useState();
-  const [userName, setUserName] = useState('');
-
-  // const totalAmount = hotel ? totalDays*hotel.pricePerNight : 0;
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,45 +39,17 @@ export default function BookingView() {
     };
 
     fetchData();
-  }, [hotelId]);
+  }, [hotelId, totalDays]);
 
-  // async function bookHotel(){
-  //   const bookingDetails = {
-  //     hotel,
-  //     userId:JSON.parse(localStorage.getItem('currentUser'))._id,
-  //     fromDate,
-  //     toDate,
-  //     totalAmount,
-  //     totalDays,
-  //   }
-  //   try{
-  //     const result = await axios.post('/api/bookings/bookHotel', bookingDetails)
-  //   }catch(error){
-  //
-  //   }
-  // }
-
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('currentUser'));
-    if (user) {
-      setUserName(user.name);
-    }
-  }, []);
-
-  async function bookHotel() {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (!currentUser || !currentUser._id) {
-      // Handle the case when the user is not logged in
-      // or the 'currentUser' item is not set
-      // You can show an error message or redirect the user to the login page.
-      return;
-    }
+  async function onToken(token) {
+    console.log(token);
 
     const bookingDetails = {
       hotel,
       userId: currentUser._id,
       fromDate,
       toDate,
+      token,
       totalAmount,
       totalDays,
     };
@@ -87,6 +57,7 @@ export default function BookingView() {
     try {
       const result = await axios.post('http://localhost:5000/api/bookings/bookHotel', bookingDetails);
     } catch (error) {
+      // Handle the error
     }
   }
 
@@ -102,16 +73,16 @@ export default function BookingView() {
             <div className='col-md-5 bs' style={{ textAlign: 'center', borderRadius: '5px' }}>
               <h1>{hotel.name}</h1>
               <div>
-                <img src={hotel.imageUrls[0]} className='bigImg' style={{ borderRadius: '5px' }} />
+                <img src={hotel.imageUrls[0]} className='bigImg' style={{ borderRadius: '5px' }} alt="Hotel" />
               </div>
             </div>
             <div className='col-md-5 bs'>
               <div style={{ textAlign: 'right' }}>
                 <h1>Booking Information</h1>
                 <hr />
-                <p>Your Name : {userName} </p>
-                <p>From Date : {fromDate}</p>
-                <p>To Date : {toDate}</p>
+                <p>Your Name: {currentUser && currentUser.name}</p>
+                <p>From Date: {fromDate}</p>
+                <p>To Date: {toDate}</p>
                 <p>Max Count: {hotel.maxGuests}</p>
               </div>
 
@@ -124,8 +95,17 @@ export default function BookingView() {
               </div>
 
               <div style={{ float: 'right' }}>
-                <button className='btn btn-primary' onClick={bookHotel}>Pay Now</button>
-              </div>
+                <StripeCheckout
+                  amount={totalAmount * 100}
+                  token={onToken}
+                  currency='EUR'
+                  stripeKey="pk_test_51NHNsGD4TiwA6UHXLgLXrqohYgiFKsJYKKdmYSGjvs0kPRDTAFNLcUvNVt7jMgztbrQUDV5qArEnANFAUg8eN4SN00AGXWUYK2"
+                >
+                  <button className='btn btn-primary'>Pay Now</button>
+                </StripeCheckout>
+
+</div>
+
             </div>
           </div>
         </div>
