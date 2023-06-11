@@ -42,10 +42,13 @@ h1{
   padding: 20px !important;
 }
 
-input{
+input , select , .ant-picker{
   box-shadow: none !important;
   margin-top: 10px;
   border: 1px solid black !important;
+  width: 100% !important;
+  padding: 10px;
+  height: 35px !important;
 }
 
 h2{
@@ -54,3 +57,9 @@ h2{
   font-weight: bold !important;
   text-align: center;
 }
+
+.ant-picker-input input{
+  border: none !important;
+}
+
+

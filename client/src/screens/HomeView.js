@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Hotel from '../components/Hotel';
 import Error from '../components/Error';
-import { DatePicker, Space } from 'antd';
-import moment from 'moment'
+import { DatePicker } from 'antd';
+import moment from 'moment';
+
 const { RangePicker } = DatePicker;
-
-
 
 const HomeView = () => {
   const [hotels, setHotels] = useState([]);
@@ -16,10 +15,11 @@ const HomeView = () => {
   const [hotelsPerPage] = useState(4);
   const [userName, setUserName] = useState('');
 
-
   const [fromDate, setFromDate] = useState();
   const [toDate, setToDate] = useState();
   const [duplicateHotels, setDuplicateHotels] = useState([]);
+  const [searchKey, setSearchKey] = useState('');
+  const [type, setType] = useState('all');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,6 +34,7 @@ const HomeView = () => {
         });
         setLoading(false);
         setHotels(response.data);
+        setDuplicateHotels(response.data);
       } catch (error) {
         setError(true);
         console.error(error.message);
@@ -60,21 +61,33 @@ const HomeView = () => {
     setCurrentPage(pageNumber);
   };
 
-  const filterByDate = (dates) => { 
-  
-    //TEST
-    // console.log(moment(dates[0]).format('DD-MM-YYYY'));
-    // console.log(moment(dates[1]).format('DD-MM-YYYY'));
-    // setFromDate(moment(dates[0]).format('DD-MM-YYYY'));
-    // setToDate(moment(dates[1]).format('DD-MM-YYYY'));
+  const filterByDate = (dates) => {
     const from = moment(dates[0].$d).format('DD-MM-YYYY');
     const to = moment(dates[1].$d).format('DD-MM-YYYY');
     setFromDate(from);
     setToDate(to);
+  };
 
-    
+  const filterBySearch = () => {
+    setHotels(duplicateHotels); // Przywróć oryginalną tablicę hoteli przed filtrowaniem
+    const tempHotels = duplicateHotels.filter((hotel) =>
+      hotel.name.toLowerCase().includes(searchKey.toLowerCase())
+    );
+    setHotels(tempHotels);
+  };
 
-  }
+  const filterByType = (e) => {
+    const selectedType = e.target.value;
+    if (selectedType !== 'all') {
+      const tempHotels = duplicateHotels.filter(
+        (hotel) => hotel.typeOfHotel && hotel.typeOfHotel.toLowerCase() === selectedType.toLowerCase()
+      );
+      setHotels(tempHotels);
+    } else {
+      setHotels(duplicateHotels);
+    }
+    setType(selectedType);
+  };
 
   return (
     <div className="container">
@@ -85,14 +98,33 @@ const HomeView = () => {
         </div>
       )}
 
-    <div className="row mt-5">
-<div className="col-md=3">
+      <div className="row mt-5 bs">
+        <div className="col-md-3">
+          <RangePicker format="DD-MM-YYYY" onChange={filterByDate} />
+        </div>
 
-<RangePicker  format='DD-MM-YYYY' onChange={filterByDate} />
-</div>
-</div>
-  
-  
+        <div className="col-md-4">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="search hotels"
+            value={searchKey}
+            onChange={(e) => setSearchKey(e.target.value)}
+            onKeyUp={filterBySearch}
+          />
+        </div>
+        <div className="col-md-4">
+          <select className="form-control" value={type} onChange={filterByType}>
+            <option value="all">All</option>
+            <option value="luxury">Luxury</option>
+            <option value="resort">Resort</option>
+            <option value="city">City</option>
+            <option value="lodge">Lodge</option>
+            <option value="inn">Inn</option>
+          </select>
+        </div>
+      </div>
+
       <div className="row row-cols-1 row-cols-sm-1 row-cols-md-2 justify-content-start mt-5">
         {loading ? (
           <h1>Loading....</h1>
@@ -101,9 +133,7 @@ const HomeView = () => {
         ) : (
           currentHotels.map((hotel) => (
             <div className="col-md-6 mb-4" key={hotel.id}>
-              {/* <Hotel hotel={hotel} fromDate={fromDate} toDate={toDate} /> */}
-              <Hotel hotel={hotel} fromDate={fromDate} toDate={toDate} key={hotel.id} />
-
+              <Hotel hotel={hotel} fromDate={fromDate} toDate={toDate} />
             </div>
           ))
         )}
