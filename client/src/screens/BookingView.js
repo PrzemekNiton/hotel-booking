@@ -63,7 +63,7 @@ export default function BookingView() {
     try {
       const result = await axios.post('http://localhost:5000/api/bookings/bookHotel', bookingDetails);
       Swal.fire('Congratulations' , 'Your Hotel Booked Successfully', 'success').then(result=>{
-        window.location.href='/myreservations';
+        window.location.href='/bookings';
       })
       console.log(result);
     } catch (error) {

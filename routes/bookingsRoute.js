@@ -61,12 +61,22 @@ router.post("/bookHotel", async (req, res) => {
               status: booking.status
             }
           }
-      
         }
       );
     }
 
     res.send("Payment Successful, Your Hotel is booked");
+  } catch (error) {
+    return res.status(400).json({ error });
+  }
+});
+
+router.post("/getBookingsByUserId", async (req, res) => {
+  const userId = req.body.userId;
+
+  try {
+    const bookings = await Booking.find({ userId: userId });
+    res.send(bookings);
   } catch (error) {
     return res.status(400).json({ error });
   }

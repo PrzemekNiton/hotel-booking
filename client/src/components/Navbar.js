@@ -24,8 +24,8 @@ export default function Navbar() {
                       <i className='fa fa-user mr-3'></i>{user.name}
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <a class="dropdown-item" href="#">My account</a>
-                      <a class="dropdown-item" href="/myreservations">My reservations</a>
+                      <a class="dropdown-item" href="/profile">profile</a>
+                      <a class="dropdown-item" href="/reservations">My reservations</a>
                       <a class="dropdown-item" href="#">Favorites</a>
                       <a class="dropdown-item" href="#" onClick={Logout}>Log out</a>
                     </div>

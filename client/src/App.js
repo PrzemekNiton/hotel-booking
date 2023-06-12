@@ -6,6 +6,8 @@ import HomeView from './screens/HomeView';
 import BookingView from './screens/BookingView';
 import RegisterView from './screens/RegisterView';
 import LoginView from './screens/LoginView';
+import ProfileView from './screens/ProfileView';
+import ReservationView from './screens/ReservationView'
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
           <Route path="/book/:hotelId/:fromDate/:toDate" element={<BookingView />} />
           <Route path="/register" element={<RegisterView/>} />
           <Route path="/login" element={<LoginView/>} />
+          <Route path='/profile' element={<ProfileView/>}/>
+          <Route path='/reservations' element={<ReservationView/>}/>
         </Routes>
       </BrowserRouter>
     </div>
