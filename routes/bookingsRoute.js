@@ -4,7 +4,7 @@ const Booking = require("../models/booking");
 const Hotel = require("../models/hotel");
 const moment = require("moment");
 const { v4: uuidv4 } = require('uuid');
-const stripe = require('stripe')('sk_test_51NHNsGD4TiwA6UHXf1A7Qsw7RvjBSErhcJ2eZWaNEyB5sQ35FbBjeEWscJDYwlOH5T36G7lJkYWmbDWNcV6DRy2q00HvZeh8SS')
+const stripe = require('stripe')('sk_test_51NHNsGD4TiwA6UHXf1A7Qsw7RvjBSErhcJ2eZWaNEyB5sQ35FbBjeEWscJDYwlOH5T36G7lJkYWmbDWNcV6DRy2q00HvZeh8SS');
 
 router.post("/bookHotel", async (req, res) => {
   const {
@@ -77,6 +77,27 @@ router.post("/getBookingsByUserId", async (req, res) => {
   try {
     const bookings = await Booking.find({ userId: userId });
     res.send(bookings);
+  } catch (error) {
+    return res.status(400).json({ error });
+  }
+});
+
+router.post("/cancelBooking", async (req, res) => {
+  const { bookingId, hotelId } = req.body;
+
+  try {
+    const bookingItem = await Booking.findOne({ _id: bookingId });
+    bookingItem.status = 'cancelled';
+    await bookingItem.save();
+    const hotel = await Hotel.findOne({ _id: hotelId });
+  
+    const bookings = hotel.currentBookings;
+    const temp = bookings.filter(booking => booking.bookingID.toString() !== bookingId);
+    hotel.currentBookings = temp;
+  
+    await hotel.save();
+  
+    res.send('Your booking has been cancelled successfully');
   } catch (error) {
     return res.status(400).json({ error });
   }

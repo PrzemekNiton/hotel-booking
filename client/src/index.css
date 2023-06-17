@@ -67,3 +67,20 @@ p{
 }
 
 
+
+.page-item {
+  margin: 0 5px;
+}
+
+.page-link {
+  background-color: #c1121f; /* zmień na wybrany kolor tła */
+  border: none;
+  color: #ffffff; /* zmień na wybrany kolor tekstu */
+
+}
+
+.page-link:hover {
+  background-color: #ccc; /* zmień na wybrany kolor efektu "hover" */
+  color: #fff; /* zmień na wybrany kolor tekstu w efekcie "hover" */
+}
+

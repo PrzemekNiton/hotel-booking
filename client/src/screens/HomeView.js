@@ -90,65 +90,67 @@ const HomeView = () => {
   };
 
   return (
-    <div className="container">
+    <div>
       {userName && (
-        <div>
-          <h3>Hi {userName}!</h3>
-          <p>Choose your dream hotel</p>
+        <div className="ml-3 mt-2">
+          <h3 className="ml-4">Hi {userName}!</h3>
+          <p className="ml-4">Choose your dream hotel</p>
         </div>
       )}
 
-      <div className="row mt-5 bs">
-        <div className="col-md-3">
-          <RangePicker format="DD-MM-YYYY" onChange={filterByDate} />
+      <div className="container">
+        <div className="row mt-5 bs">
+          <div className="col-md-3">
+            <RangePicker format="DD-MM-YYYY" onChange={filterByDate} />
+          </div>
+
+          <div className="col-md-4">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="search hotels"
+              value={searchKey}
+              onChange={(e) => setSearchKey(e.target.value)}
+              onKeyUp={filterBySearch}
+            />
+          </div>
+          <div className="col-md-4">
+            <select className="form-control" value={type} onChange={filterByType}>
+              <option value="all">All</option>
+              <option value="luxury">Luxury</option>
+              <option value="resort">Resort</option>
+              <option value="city">City</option>
+              <option value="lodge">Lodge</option>
+              <option value="inn">Inn</option>
+            </select>
+          </div>
         </div>
 
-        <div className="col-md-4">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="search hotels"
-            value={searchKey}
-            onChange={(e) => setSearchKey(e.target.value)}
-            onKeyUp={filterBySearch}
-          />
+        <div className="row row-cols-1 row-cols-sm-1 row-cols-md-2 justify-content-start mt-5">
+          {loading ? (
+            <h1>Loading....</h1>
+          ) : error ? (
+            <Error />
+          ) : (
+            currentHotels.map((hotel) => (
+              <div className="col-md-6 mb-4" key={hotel.id}>
+                <Hotel hotel={hotel} fromDate={fromDate} toDate={toDate} />
+              </div>
+            ))
+          )}
         </div>
-        <div className="col-md-4">
-          <select className="form-control" value={type} onChange={filterByType}>
-            <option value="all">All</option>
-            <option value="luxury">Luxury</option>
-            <option value="resort">Resort</option>
-            <option value="city">City</option>
-            <option value="lodge">Lodge</option>
-            <option value="inn">Inn</option>
-          </select>
-        </div>
+
+        {/* Pagination */}
+        <ul className="pagination">
+          {Array.from({ length: Math.ceil(hotels.length / hotelsPerPage) }, (_, index) => (
+            <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
+              <button className="page-link" onClick={() => paginate(index + 1)}>
+                {index + 1}
+              </button>
+            </li>
+          ))}
+        </ul>
       </div>
-
-      <div className="row row-cols-1 row-cols-sm-1 row-cols-md-2 justify-content-start mt-5">
-        {loading ? (
-          <h1>Loading....</h1>
-        ) : error ? (
-          <Error />
-        ) : (
-          currentHotels.map((hotel) => (
-            <div className="col-md-6 mb-4" key={hotel.id}>
-              <Hotel hotel={hotel} fromDate={fromDate} toDate={toDate} />
-            </div>
-          ))
-        )}
-      </div>
-
-      {/* Pagination */}
-      <ul className="pagination">
-        {Array.from({ length: Math.ceil(hotels.length / hotelsPerPage) }, (_, index) => (
-          <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
-            <button className="page-link" onClick={() => paginate(index + 1)}>
-              {index + 1}
-            </button>
-          </li>
-        ))}
-      </ul>
     </div>
   );
 };
